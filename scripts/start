@@ -4,7 +4,7 @@ var readlinkSync = require('fs').readlinkSync
 var spawn        = require('child_process').spawn
 
 
-var nographic = false
+var nographic = true
 
 
 var cpu = readlinkSync('usersfs.img').split('/');
@@ -35,9 +35,11 @@ var command = 'qemu-system-'+cpu_family
 var args =
 [
   '-enable-kvm',
-  '-hda',    '../nodeos-rootfs/rootfs.img',
-  '-hdb',    'usersfs.img'
-]
+  '--kernel', '../nodeos-barebones/bzImage',
+  '--initrd', '../nodeos-initramfs/initramfs.cpio.gz',
+  '-hda',     'usersfs.img',
+  '-append',  'root=/dev/sda console=ttyS0'  // QEmu don't want root= at the end
+]                                            // if there are more arguments
 
 if(nographic) args.push('-nographic')
 
