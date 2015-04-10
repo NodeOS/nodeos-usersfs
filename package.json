@@ -1,6 +1,6 @@
 {
   "name": "nodeos-usersfs",
-  "version": "0.0.0",
+  "version": "0.0.15",
   "scripts": {
     "install": "scripts/install",
     "start": "scripts/start",
