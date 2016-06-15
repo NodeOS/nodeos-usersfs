@@ -4,7 +4,7 @@
   "scripts": {
     "docker": "scripts/docker",
     "dockerBuild": "docker build -t usersfs .",
-    "install": "scripts/build",
+    "build": "scripts/build",
     "start": "scripts/start",
     "test": "scripts/test",
     "unbuild": "scripts/unbuild"
@@ -27,10 +27,12 @@
     "bin-ifconfig": "netlovers/node-bin-ifconfig"
   },
   "dependencies": {
+    "debugfs": "^0.0.2",
     "genext2fs": "nodeos/genext2fs",
     "nodeos-cross-toolchain": "NodeOS/nodeos-cross-toolchain"
   },
   "devDependencies": {
+    "nodejs": "NodeOS/nodejs",
     "qemu": "NodeOS/qemu"
   }
 }
