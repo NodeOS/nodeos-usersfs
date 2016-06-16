@@ -29,10 +29,10 @@
   "dependencies": {
     "debugfs": "^0.0.2",
     "genext2fs": "nodeos/genext2fs",
+    "nodejs": "NodeOS/nodejs",
     "nodeos-cross-toolchain": "NodeOS/nodeos-cross-toolchain"
   },
   "devDependencies": {
-    "nodejs": "NodeOS/nodejs",
     "qemu": "NodeOS/qemu"
   }
 }
