@@ -177,10 +177,16 @@ if [[ ! -e $OUT_DIR ]]; then
           --allow-holes                \
           --squash $OUT_DIR            || exit 40
 
-      /sbin/tune2fs -j $OUT_DIR > /dev/null || exit 41
-      debugfs.chown    $OUT_DIR nodeos 1    || exit 42
+      # Set filesystem features and users files permissions
+      tune2fs       $OUT_DIR -O has_journal,filetype > /dev/null || exit 41
+      e2fsck -y     $OUT_DIR                         > /dev/null
+      if [ $? -gt 2 ]; then
+        exit 42
+      fi
+      debugfs.chown $OUT_DIR nodeos 1 || exit 43
 
-      ln -sf $CPU out/latest || exit 43
+      # Mark the newly created filesystem image as the latest one
+      ln -sf $CPU out/latest || exit 44
     ;;
 
     *)
