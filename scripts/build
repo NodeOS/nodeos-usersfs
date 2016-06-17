@@ -166,7 +166,7 @@ if [[ ! -e $OUT_DIR ]]; then
     ;;
 
     pc_* | raspberry_*)
-      DISK_SIZE=512  # Size in MB
+      DISK_SIZE=128  # Size in MB
 
       genext2fs -b $((DISK_SIZE*1024)) \
           --root $OBJECTS              \
