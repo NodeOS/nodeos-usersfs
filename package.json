@@ -43,12 +43,12 @@
   ],
   "dependencies": {
     "debugfs": "^0.0.2",
-    "genext2fs": "nodeos/genext2fs",
-    "node-wget": "0.4.2",
+    "genext2fs": "^1.4.1",
+    "node-wget": "^0.4.2",
     "nodeos-cross-toolchain": "^1.0.0-RC2.8",
     "nodeos-nodejs": "^6.2.2"
   },
   "devDependencies": {
-    "qemu": "NodeOS/qemu"
+    "qemu": "^2.6.0"
   }
 }
