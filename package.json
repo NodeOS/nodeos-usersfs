@@ -42,11 +42,32 @@
     "slap"
   ],
   "dependencies": {
+    "bin-fs": "^0.2.0",
+    "bin-man": "^0.2.0",
+    "bin-pwd": "^0.0.0",
+    "bin-sh": "^0.0.0",
+    "davius": "^0.0.1",
+    "dhcpjs": "^0.5.0",
     "debugfs": "^0.0.2",
+    "forever": "piranna/forever#starter",
+    "forever-monitor": "piranna/forever-monitor",
     "genext2fs": "^1.4.1",
+    "ifconfig": "NodeOS/ifconfig",
+    "ip": "NodeOS/ip",
+    "loadtest": "^1.4.3",
+    "logon": "^0.1.1",
+    "node-bin-getty": "NodeOS/node-bin-getty",
     "node-wget": "^0.4.2",
-    "nodeos-cross-toolchain": "^1.0.0-RC2.8",
-    "nodeos-nodejs": "^6.2.2"
+    "nodeos-cross-toolchain": "^1.0.0-RC2.9",
+    "nodeos-nodejs": "^6.2.2",
+    "nodeos-reverse-proxy": "^0.1.0",
+    "npm": "^3.9.6",
+    "nsh": "piranna/nsh#patch-1",
+    "ntp-client": "^0.5.3",
+    "performance": "^1.1.0",
+    "pstree": "^0.0.0",
+    "slap": "^0.1.60"
+
   },
   "devDependencies": {
     "qemu": "^2.6.0"
