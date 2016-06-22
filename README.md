@@ -1,3 +1,5 @@
+[![Build Status](https://semaphoreci.com/api/v1/nodeos/nodeos-usersfs/branches/master/badge.svg)](https://semaphoreci.com/nodeos/nodeos-usersfs)
+
 # NodeOS usersfs
 
 This package generates a read-write users filesystem for NodeOS for demo

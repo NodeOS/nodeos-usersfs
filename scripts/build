@@ -10,7 +10,7 @@ TOOLCHAIN=`node -p "require('nodeos-cross-toolchain')"`
 BAREBONES=`node -p "require('nodeos-barebones')"`
 INITRAMFS=`node -p "require('nodeos-initramfs')"`
 
-NODE_DIR=`node -p "require('nodejs')"`
+NODE_DIR=`node -p "require('nodeos-nodejs')"`
 
 source $TOOLCHAIN/scripts/adjustEnvVars.sh &&
 source scripts/utils.sh                    || exit $?
@@ -154,21 +154,23 @@ fi
 # Wrap the system up and pack it
 #
 
-if [[ ! -e $OUT_DIR ]]; then
-  mkdir -p `dirname $OUT_DIR`
+STEP_DIR=$OUT_DIR
+
+if [[ ! -f $STEP_DIR ]]; then
+  mkdir -p `dirname $STEP_DIR`
 
   case $PLATFORM in
     docker|vagga)
-      cp $BAREBONES/out/latest out/barebones.tar || exit 30
-      cp $INITRAMFS/out/latest out/initramfs.tar || exit 31
+      cp $BAREBONES/out/latest $STEP_DIR/barebones.tar || err 30
+      cp $INITRAMFS/out/latest $STEP_DIR/initramfs.tar || err 31
 
-      chmod -R go= "$OBJECTS" || exit 32
+      chmod -R go= "$OBJECTS" || err 32
 
-      ln -sf ../build/$CPU out/latest || exit 33
+      ln -sf ../build/$CPU out/latest || err 33
     ;;
 
     pc_* | raspberry_*)
-      DISK_SIZE=128  # Size in MB
+      DISK_SIZE=192  # Size in MB
 
       genext2fs -b $((DISK_SIZE*1024)) \
           --root $OBJECTS              \
@@ -177,23 +179,23 @@ if [[ ! -e $OUT_DIR ]]; then
           --reserved-percentage    0   \
           --creator-os linux           \
           --allow-holes                \
-          --squash $OUT_DIR            || exit 40
+          --squash $STEP_DIR           || err 40
 
       # Set filesystem features and users files permissions
-      tune2fs       $OUT_DIR -O has_journal,filetype > /dev/null || exit 41
-      e2fsck -y     $OUT_DIR                         > /dev/null
+      tune2fs   $STEP_DIR -O has_journal,filetype > /dev/null || err 41
+      e2fsck -y $STEP_DIR                         > /dev/null
       if [ $? -gt 2 ]; then
-        exit 42
+        err 42
       fi
-      debugfs.chown $OUT_DIR nodeos 1 || exit 43
+      debugfs.chown $STEP_DIR nodeos 1 || err 43
 
       # Mark the newly created filesystem image as the latest one
-      ln -sf $CPU out/latest || exit 44
+      ln -sf $CPU out/latest || err 44
     ;;
 
     *)
       echo -e "${RED}Unknown platform '$PLATFORM'${CLR}"
-      exit 50
+      err 50
     ;;
   esac
 fi

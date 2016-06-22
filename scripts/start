@@ -4,7 +4,7 @@ var fs    = require('fs')
 var spawn = require('child_process').spawn
 
 
-const QEMU_SYSTEM = '../nodeos-barebones/usr/bin/qemu-system-'
+const QEMU_SYSTEM = require('qemu')+'/bin/qemu-system-'
 
 
 var link = fs.readlinkSync('out/latest').split('/');
@@ -64,8 +64,8 @@ var args =
   '-m', '256M',
   '-redir', 'tcp:50080::80',
   '-redir', 'tcp:50443::443',
-  '--kernel', '../nodeos-barebones/out/latest',
-  '--initrd', '../nodeos-initramfs/out/latest',
+  '--kernel', require('nodeos-barebones')+'/out/latest',
+  '--initrd', require('nodeos-initramfs')+'/out/latest',
   '-hda',     'out/latest',
   '-append',  append.join(' ')
 ]

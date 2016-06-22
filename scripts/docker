@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-IMAGE=rootfs
+IMAGE=initramfs
 USERSFS=out/latest
 
 docker run -it           \
