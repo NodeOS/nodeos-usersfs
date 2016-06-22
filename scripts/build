@@ -53,7 +53,8 @@ if [[ ! -d $STEP_DIR ]]; then
     # Install system dependencies
     #
 
-    eval "$NPMi" -g `grep -v "^#" packages_root.txt` || exit 11
+    PACKAGES=`node -p "require('./package.json').nodeosDependenciesRoot.join(' ')"`
+    eval "$NPMi" -g $PACKAGES || exit 11
 
 
     #
@@ -94,7 +95,8 @@ if [[ ! -d $STEP_DIR ]]; then
     # Install user dependencies
     #
 
-    eval "$NPMi" -g `grep -v "^#" packages_nodeos.txt` || exit 21
+    PACKAGES=`node -p "require('./package.json').nodeosDependenciesNodeos.join(' ')"`
+    eval "$NPMi" -g $PACKAGES || exit 21
 
 
     #
