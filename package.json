@@ -63,9 +63,17 @@
     "performance": "^1.1.0",
     "pstree": "^0.0.0",
     "slap": "^0.1.60"
-
   },
   "devDependencies": {
     "qemu": "^2.6.0"
-  }
+  },
+  "description": "Generate a read-write users filesystem for NodeOS for demo purposses",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NodeOS/nodeos-usersfs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NodeOS/nodeos-usersfs/issues"
+  },
+  "homepage": "https://github.com/NodeOS/nodeos-usersfs#readme"
 }
