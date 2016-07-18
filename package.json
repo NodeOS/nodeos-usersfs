@@ -55,7 +55,7 @@
     "nodeos-barebones": "^1.0.0-RC2.2",
     "nodeos-cross-toolchain": "^1.0.0-RC2.11",
     "nodeos-initramfs": "^1.0.0-RC2.2",
-    "nodeos-nodejs": "NodeOS/nodejs",
+    "nodeos-nodejs": "^6.3.0",
     "nodeos-reverse-proxy": "^0.1.0",
     "npm": "^3.9.6",
     "nsh": "piranna/nsh#patch-1",
