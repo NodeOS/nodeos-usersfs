@@ -62,14 +62,14 @@ if [[ ! -d $STEP_DIR ]]; then
     #
 
     mkdir -p $STEP_DIR/etc                 &&
-    cp forever-starter.json $STEP_DIR/etc/ || exit 12
+    cp palmtree.json $STEP_DIR/etc/ || exit 12
 
 
     #
     # Init file for the user
     #
 
-    ln -sf bin/forever-starter $STEP_DIR/init || exit 13
+    ln -sf bin/palmtree $STEP_DIR/init || exit 13
   ) || err $?
 
   echo -e "${GRN}Successfully generated root user folder${CLR}"
