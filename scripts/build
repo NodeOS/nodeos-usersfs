@@ -172,22 +172,27 @@ if [[ ! -f $STEP_DIR ]]; then
     pc_* | raspberry_*)
       DISK_SIZE=192  # Size in MB
 
+      (
+        cd $OBJECTS
+        ../../scripts/gendevicetable.js nodeos 1 1 || exit 40
+      ) > $STEP_DIR || err $?
+
       genext2fs -b $((DISK_SIZE*1024)) \
           --root $OBJECTS              \
+          --devtable $STEP_DIR         \
           --block-size          1024   \
           --bytes-per-inode     4096   \
           --reserved-percentage    0   \
           --creator-os linux           \
           --allow-holes                \
-          --squash $STEP_DIR           || err 40
+          --squash $STEP_DIR           || err 41
 
       # Set filesystem features and users files permissions
-      tune2fs   $STEP_DIR -O has_journal,filetype > /dev/null || err 41
+      tune2fs   $STEP_DIR -O has_journal,filetype > /dev/null || err 42
       e2fsck -y $STEP_DIR                         > /dev/null
       if [ $? -gt 2 ]; then
-        err 42
+        err 43
       fi
-      debugfs.chown $STEP_DIR nodeos 1 || err 43
 
       # Mark the newly created filesystem image as the latest one
       ln -sf $CPU out/latest || err 44
