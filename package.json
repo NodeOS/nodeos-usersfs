@@ -54,7 +54,7 @@
     "nodeos-initramfs": "NodeOS/nodeos-initramfs",
     "nodeos-nodejs": "^6.8.1",
     "nodeos-reverse-proxy": "^0.1.0",
-    "npm": "^3.10.8",
+    "npm": "^4.0.3",
     "nsh": "piranna/nsh",
     "ntp-client": "^0.5.3",
     "palmtree": "^2.5.0",
