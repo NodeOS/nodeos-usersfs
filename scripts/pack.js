@@ -20,9 +20,14 @@ pack(root,
       header.uid = uid
       header.gid = gid
     }
+    else
+    {
+      header.uid = 0
+      header.gid = 0
+    }
 
     return header
   },
-  umask: 0x077
+  umask: 0o077
 })
 .pipe(process.stdout)
