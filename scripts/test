@@ -1,7 +1,27 @@
-#!/usr/bin/env bash
+#!/usr/bin/env node
+
+const deepStrictEqual = require('assert').deepStrictEqual
+const exec = require('child_process').exec
 
 
-TOOLCHAIN=`pwd`/../nodeos-cross-toolchain
-TOOLS=$TOOLCHAIN/out
+exec('tar -tvf out/latest | head -n 3', function(error, stdout, stderr)
+{
+  if(error) throw error
 
-source $TOOLCHAIN/scripts/adjustEnvVars.sh || exit $?
+  let entries = stdout.split('\n').map(function(item)
+  {
+    if(!item.length) return
+
+    item = item.replace(/\s+/g, ' ').split(' ')
+
+    let mode = item[0]
+    let name = item[5]
+    let [uid, gid] = item[1].split('/')
+
+    return {mode, name, uid: parseInt(uid), gid: parseInt(gid)}
+  })
+
+  deepStrictEqual(entries[0], {mode: 'drwx------', name: '.'     , uid: 0, gid: 0})
+  deepStrictEqual(entries[1], {mode: 'drwx------', name: 'nodeos', uid: 1, gid: 1})
+  deepStrictEqual(entries[2], {mode: 'drwx------', name: 'root'  , uid: 0, gid: 0})
+})
