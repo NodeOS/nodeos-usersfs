@@ -6,8 +6,6 @@ CLR="\e[0m"
 
 TOOLCHAIN=`node -p "require('nodeos-cross-toolchain')"`
 
-NODE_DIR=`node -p "require('nodeos-nodejs')"`
-
 source $TOOLCHAIN/scripts/adjustEnvVars.sh &&
 source scripts/utils.sh                    || exit $?
 
@@ -17,7 +15,7 @@ PATH=$TOOLCHAIN/bin:$PATH
 # Build cross-compiler (if needed)
 (
   cd $TOOLCHAIN
-  BITS=$BITS CPU=$CPU MACHINE=$MACHINE npm run build || exit $?
+  BITS=$BITS CPU=$CPU MACHINE=$MACHINE npm install --production || exit $?
 ) || exit $?
 
 
