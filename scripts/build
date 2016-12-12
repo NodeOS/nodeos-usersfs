@@ -1,16 +1,10 @@
 #!/usr/bin/env bash
 
-# This script prepares the users filesystem
-
 GRN="\e[32m"
 CLR="\e[0m"
 
 
 TOOLCHAIN=`node -p "require('nodeos-cross-toolchain')"`
-BAREBONES=`node -p "require('nodeos-barebones')"`
-INITRAMFS=`node -p "require('nodeos-initramfs')"`
-
-NODE_DIR=`node -p "require('nodeos-nodejs')"`
 
 source $TOOLCHAIN/scripts/adjustEnvVars.sh &&
 source scripts/utils.sh                    || exit $?
@@ -18,11 +12,11 @@ source scripts/utils.sh                    || exit $?
 PATH=$TOOLCHAIN/bin:$PATH
 
 
-# Clean object dir and return the input error
-function err(){
-  rmStep $STEP_DIR
-  exit $1
-}
+# Build cross-compiler (if needed)
+(
+  cd $TOOLCHAIN
+  BITS=$BITS CPU=$CPU MACHINE=$MACHINE npm install --production || exit $?
+) || exit $?
 
 
 #
@@ -31,7 +25,7 @@ function err(){
 
 OBJ_ROOT=$OBJECTS/root
 OBJ_NODEOS=$OBJECTS/nodeos
-OUT_DIR=`pwd`/out/$CPU
+OUT_DIR=`pwd`/out/$CPU.tar.gz
 
 
 #
@@ -44,32 +38,32 @@ if [[ ! -d $STEP_DIR ]]; then
   echo -e "${WHT}Generating root user folder${CLR}"
 
   # Force re-creation of usersfs
-  rm -rf $OUT_DIR || exit 14
+  rm -rf $OUT_DIR || exit 10
 
   (
-    mkdir -p $STEP_DIR || exit 10
+    mkdir -p $STEP_DIR || exit 11
 
     #
     # Install system dependencies
     #
 
     PACKAGES=`node -p "require('./package.json').nodeosDependenciesRoot.join(' ')"`
-    eval "$NPMi" -g $PACKAGES || exit 11
+    eval "$NPMi" -g $PACKAGES || exit 12
 
 
     #
     # Services to be started at boot
     #
 
-    mkdir -p $STEP_DIR/etc                 &&
-    cp palmtree.json $STEP_DIR/etc/ || exit 12
+    mkdir -p $STEP_DIR/etc                    &&
+    cp resources/palmtree.json $STEP_DIR/etc/ || exit 13
 
 
     #
     # Init file for the user
     #
 
-    ln -sf bin/palmtree $STEP_DIR/init || exit 13
+    ln -sf bin/palmtree $STEP_DIR/init || exit 14
   ) || err $?
 
   echo -e "${GRN}Successfully generated root user folder${CLR}"
@@ -86,32 +80,32 @@ if [[ ! -d $STEP_DIR ]]; then
   echo -e "${WHT}Generating nodeos user folder${CLR}"
 
   # Force re-creation of usersfs
-  rm -rf $OUT_DIR || exit 25
+  rm -rf $OUT_DIR || exit 20
 
   (
-    mkdir -p $STEP_DIR || exit 20
+    mkdir -p $STEP_DIR || exit 21
 
     #
     # Install user dependencies
     #
 
     PACKAGES=`node -p "require('./package.json').nodeosDependenciesNodeos.join(' ')"`
-    eval "$NPMi" -g $PACKAGES || exit 21
+    eval "$NPMi" -g $PACKAGES || exit 22
 
 
     #
     # Copy nodeos user login info
     #
 
-    mkdir -p $STEP_DIR/etc        &&
-    cp logon.json  $STEP_DIR/etc/ || exit 22
+    mkdir -p $STEP_DIR/etc                  &&
+    cp resources/logon.json  $STEP_DIR/etc/ || exit 23
 
 
     #
     # Dummy init file for the user
     #
 
-    cp init.js $STEP_DIR/init || exit 23
+    cp resources/init.js $STEP_DIR/init || exit 24
 
 
     #
@@ -126,7 +120,7 @@ if [[ ! -d $STEP_DIR ]]; then
     (
       cd $SRC_DIR
 
-      eval "$NPMi" || exit 24
+      eval "$NPMi" || exit 25
     ) || exit $?
 
 
@@ -142,7 +136,7 @@ if [[ ! -d $STEP_DIR ]]; then
     # (
     #   cd $SRC_DIR
     #
-    #   eval "$NPMi" --has_cairo=false --has_X11=false || exit 25
+    #   eval "$NPMi" --has_cairo=false --has_X11=false || exit 26
     # ) || exit $?
   ) || err $?
 
@@ -159,50 +153,9 @@ STEP_DIR=$OUT_DIR
 if [[ ! -f $STEP_DIR ]]; then
   mkdir -p `dirname $STEP_DIR`
 
-  case $PLATFORM in
-    docker|vagga)
-      cp $BAREBONES/out/latest $STEP_DIR/barebones.tar || err 30
-      cp $INITRAMFS/out/latest $STEP_DIR/initramfs.tar || err 31
+  scripts/pack.js "$OBJECTS" nodeos 1 1 | gzip > $STEP_DIR || err 30
 
-      chmod -R go= "$OBJECTS" || err 32
-
-      ln -sf ../build/$CPU out/latest || err 33
-    ;;
-
-    pc_* | raspberry_*)
-      DISK_SIZE=192  # Size in MB
-
-      (
-        cd $OBJECTS
-        ../../scripts/gendevicetable.js nodeos 1 1 || exit 40
-      ) > $STEP_DIR || err $?
-
-      genext2fs -b $((DISK_SIZE*1024)) \
-          --root $OBJECTS              \
-          --devtable $STEP_DIR         \
-          --block-size          1024   \
-          --bytes-per-inode     4096   \
-          --reserved-percentage    0   \
-          --creator-os linux           \
-          --allow-holes                \
-          --squash $STEP_DIR           || err 41
-
-      # Set filesystem features and users files permissions
-      tune2fs   $STEP_DIR -O has_journal,filetype > /dev/null || err 42
-      e2fsck -y $STEP_DIR                         > /dev/null
-      if [ $? -gt 2 ]; then
-        err 43
-      fi
-
-      # Mark the newly created filesystem image as the latest one
-      ln -sf $CPU out/latest || err 44
-    ;;
-
-    *)
-      echo -e "${RED}Unknown platform '$PLATFORM'${CLR}"
-      err 50
-    ;;
-  esac
+  ln -sf $CPU.tar.gz out/latest || err 32
 fi
 
 
