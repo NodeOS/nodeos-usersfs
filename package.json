@@ -1,6 +1,6 @@
 {
   "name": "nodeos-usersfs",
-  "version": "1.0.0-RC2",
+  "version": "1.0.0-RC3",
   "scripts": {
     "build": "scripts/build",
     "test": "scripts/test",
