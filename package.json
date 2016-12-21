@@ -57,7 +57,7 @@
   "devDependencies": {
     "nodeos-cross-toolchain": "^1.0.0-RC3",
     "nodeos-nodejs": "^6.9.2",
-    "qemu": "^2.7.0",
+    "qemu": "^2.8.0",
     "tar-fs": "^1.15.0"
   },
   "description": "Generate a read-write users filesystem for NodeOS for demo purposses",
