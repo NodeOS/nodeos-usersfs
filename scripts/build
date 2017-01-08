@@ -154,9 +154,14 @@ if [[ ! -f $STEP_DIR ]]; then
   mkdir -p `dirname $STEP_DIR`
 
   scripts/pack.js "$OBJECTS" nodeos 1 1 | gzip > $STEP_DIR || err 30
-
-  ln -sf $CPU.tar.gz out/latest || err 32
 fi
+
+
+#
+# Update latest build
+#
+
+ln -sf $CPU.tar.gz out/latest || err 40
 
 
 echo -e "${GRN}Successfully built Layer-3 image 'usersfs'${CLR}"
