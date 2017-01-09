@@ -56,7 +56,7 @@
   },
   "devDependencies": {
     "nodeos-cross-toolchain": "^1.0.0-RC3",
-    "nodeos-nodejs": "^6.9.3",
+    "nodeos-nodejs": "^6.9.4",
     "qemu": "^2.8.0",
     "tar-fs": "^1.15.0"
   },
