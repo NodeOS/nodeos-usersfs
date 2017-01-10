@@ -37,7 +37,7 @@
     "bin-man": "^0.2.0",
     "bin-pwd": "^0.0.0",
     "davius": "^0.0.1",
-    "dhcpjs": "^0.5.1",
+    "dhcpjs": "^0.5.2",
     "fs-extra": "^1.0.0",
     "ifconfig": "NodeOS/ifconfig",
     "ip": "NodeOS/ip",
@@ -55,8 +55,8 @@
     "slap": "^0.1.61"
   },
   "devDependencies": {
-    "nodeos-cross-toolchain": "^1.0.0-RC3",
-    "nodeos-nodejs": "^6.9.3",
+    "nodeos-cross-toolchain": "^1.0.0-RC3.0",
+    "nodeos-nodejs": "^6.9.4",
     "qemu": "^2.8.0",
     "tar-fs": "^1.15.0"
   },
