@@ -4,7 +4,7 @@ GRN="\e[32m"
 CLR="\e[0m"
 
 
-TOOLCHAIN=`node -p "require('nodeos-cross-toolchain')"`
+TOOLCHAIN=`node -p "require('nodeos-cross-toolchain')"` || exit 1
 
 source $TOOLCHAIN/scripts/adjustEnvVars.sh &&
 source scripts/utils.sh                    || exit $?
@@ -23,9 +23,12 @@ PATH=$TOOLCHAIN/bin:$PATH
 # Define steps paths
 #
 
+NODE_PLATFORM=linux
+
 OBJ_ROOT=$OBJECTS/root
 OBJ_NODEOS=$OBJECTS/nodeos
 OUT_DIR=`pwd`/out/$CPU.tar.gz
+PREBUILD=prebuilds/$NODE_PLATFORM-$NODE_ARCH.tar.gz
 
 
 #
@@ -151,6 +154,8 @@ fi
 STEP_DIR=$OUT_DIR
 
 if [[ ! -f $STEP_DIR ]]; then
+  rmStep $PREBUILD
+
   mkdir -p `dirname $STEP_DIR`
 
   scripts/pack.js "$OBJECTS" nodeos 1 1 | gzip > $STEP_DIR || err 30
@@ -165,3 +170,15 @@ ln -sf $CPU.tar.gz out/latest || err 40
 
 
 echo -e "${GRN}Successfully built Layer-3 image 'usersfs'${CLR}"
+
+
+#
+# Pack `nodeos-usersfs` in a node-gyp compatible way
+#
+
+# TODO use Node.js arch instead of explicit CPUs and move to BigRedButton
+
+STEP_DIR=$PREBUILD
+
+mkdir -p `dirname $STEP_DIR`          &&
+tar -cf - out/$CPU.tar.gz | gzip > $STEP_DIR || err 100

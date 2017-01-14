@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# This script should generate all the possible build combinations of
+# `nodeos-usersfs` and test them by checking the final files has the correct
+# permissions
+
+
+BUILD="npm run build --no-spin"
+TEST="npm test"
+
+
+eval MACHINE=pc BITS=32 $BUILD && $TEST || exit 1
+eval MACHINE=pc BITS=64 $BUILD && $TEST || exit 2
+eval MACHINE=raspi2     $BUILD && $TEST || exit 3
+
+
+#
+# Upload release to GitHub
+#
+
+if [ "$GITHUB_TOKEN" ]; then
+  prebuild --upload-all $GITHUB_TOKEN || exit 10
+fi

@@ -1,4 +1,4 @@
-NODE_DIR=`node -p "require('nodeos-nodejs')"`
+NODE_DIR=`node -p "require('nodeos-nodejs')"` || exit $?
 
 NPMi='CC=$TARGET-gcc              \
       CXX=$TARGET-g++             \
