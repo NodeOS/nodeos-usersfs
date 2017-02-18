@@ -1,6 +1,6 @@
 {
   "name": "nodeos-usersfs",
-  "version": "1.0.0-RC3.1",
+  "version": "1.0.0-RC3.2",
   "scripts": {
     "BigRedButton": "scripts/BigRedButton",
     "build": "scripts/build",
