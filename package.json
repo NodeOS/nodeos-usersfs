@@ -79,7 +79,7 @@
     "npm": "^4.2.0",
     "nsh": "piranna/nsh",
     "ntp-client": "^0.5.3",
-    "palmtree": "^2.5.0",
+    "palmtree": "^2.6.0",
     "performance": "^1.1.1",
     "prebuild": "^6.0.2",
     "pstree": "^0.0.1",
