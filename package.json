@@ -77,7 +77,7 @@
     "nodeos-nodejs": "^6.9.5-0",
     "nodeos-reverse-proxy": "^0.1.0",
     "npm": "^4.2.0",
-    "nsh": "piranna/nsh",
+    "nsh": "^0.5.0",
     "ntp-client": "^0.5.3",
     "palmtree": "^2.6.0",
     "performance": "^1.1.1",
