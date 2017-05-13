@@ -2,6 +2,8 @@
 
 # NodeOS usersfs
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/NodeOS/nodeos-usersfs.svg)](https://greenkeeper.io/)
+
 This package generates a read-write users filesystem for NodeOS for demo
 purposses. It has a *root* user (used to initialize some sub-systems) and a
 logable *nodeos* user with some basic pre-installed packages like a shell
