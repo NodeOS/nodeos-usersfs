@@ -22,8 +22,6 @@
     "NodeOS/ip",
     "bin-man",
     "bin-nsh",
-    "bin-pwd",
-    "bin-sh",
     "davius",
     "dhcpjs",
     "ifconfig",
@@ -36,12 +34,11 @@
     "slap"
   ],
   "dependencies": {
-    "builddependencies": "0.0.1",
+    "builddependencies": "^0.0.1",
     "prebuild-install": "^2.1.2"
   },
   "buildDependencies": [
     "bin-man",
-    "bin-pwd",
     "davius",
     "dhcpjs",
     "ifconfig",
@@ -63,7 +60,6 @@
   ],
   "devDependencies": {
     "bin-man": "^0.2.0",
-    "bin-pwd": "^0.0.0",
     "ci-publish": "^1.3.0",
     "davius": "^0.0.1",
     "dhcpjs": "^0.6.0",
