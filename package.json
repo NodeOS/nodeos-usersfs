@@ -12,7 +12,7 @@
   "license": "MIT",
   "nodeosDependenciesRoot": [
     "logon",
-    "NodeOS/node-bin-getty",
+    "@nodeos/getty",
     "nodeos-reverse-proxy",
     "palmtree"
   ],
@@ -45,7 +45,7 @@
     "ip",
     "loadtest",
     "logon",
-    "node-bin-getty",
+    "@nodeos/getty",
     "node-wget",
     "nodeos-cross-toolchain",
     "nodeos-nodejs",
@@ -67,7 +67,7 @@
     "ip": "NodeOS/ip",
     "loadtest": "^2.3.0",
     "logon": "^0.1.4",
-    "node-bin-getty": "NodeOS/node-bin-getty",
+    "@nodeos/getty": "^0.0.0",
     "node-wget": "^0.4.2",
     "nodeos-cross-toolchain": "^1.0.0-RC3.1",
     "nodeos-nodejs": "^6.9.5-0",
