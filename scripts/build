@@ -95,20 +95,23 @@ if [[ ! -d $STEP_DIR ]]; then
     PACKAGES=`node -p "require('./package.json').nodeosDependenciesNodeos.join(' ')"`
     eval "$NPMi" -g $PACKAGES || exit 22
 
+    # Set `nsh` as default `sh` shell
+    ln -s nsh $STEP_DIR/bin/sh || exit 23
+
 
     #
     # Copy nodeos user login info
     #
 
     mkdir -p $STEP_DIR/etc                  &&
-    cp resources/logon.json  $STEP_DIR/etc/ || exit 23
+    cp resources/logon.json  $STEP_DIR/etc/ || exit 24
 
 
     #
     # Dummy init file for the user
     #
 
-    cp resources/init.js $STEP_DIR/init || exit 24
+    cp resources/init.js $STEP_DIR/init || exit 25
 
 
     #
@@ -123,7 +126,7 @@ if [[ ! -d $STEP_DIR ]]; then
     (
       cd $SRC_DIR
 
-      eval "$NPMi" || exit 25
+      eval "$NPMi" || exit 26
     ) || exit $?
 
 
@@ -139,7 +142,7 @@ if [[ ! -d $STEP_DIR ]]; then
     # (
     #   cd $SRC_DIR
     #
-    #   eval "$NPMi" --has_cairo=false --has_X11=false || exit 26
+    #   eval "$NPMi" --has_cairo=false --has_X11=false || exit 27
     # ) || exit $?
   ) || err $?
 
