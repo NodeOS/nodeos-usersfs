@@ -25,8 +25,8 @@ PATH=$TOOLCHAIN/bin:$PATH
 
 NODE_PLATFORM=linux
 
-OBJ_ROOT=$OBJECTS/root
-OBJ_NODEOS=$OBJECTS/nodeos
+OBJ_ROOT=$OBJECTS/usersfs/root
+OBJ_NODEOS=$OBJECTS/usersfs/nodeos
 OUT_DIR=`pwd`/out/$CPU.tar.gz
 PREBUILD=prebuilds/$NODE_PLATFORM-$NODE_ARCH.tar.gz
 
@@ -50,8 +50,8 @@ if [[ ! -d $STEP_DIR ]]; then
     # Install system dependencies
     #
 
-    PACKAGES=`node -p "require('./package.json').nodeosDependenciesRoot.join(' ')"`
-    eval "$NPMi" -g $PACKAGES || exit 12
+    # PACKAGES=`node -p "require('./package.json').nodeosDependenciesRoot.join(' ')"`
+    # eval "$NPMi" -g $PACKAGES || exit 12
 
 
     #
@@ -144,6 +144,43 @@ if [[ ! -d $STEP_DIR ]]; then
     #
     #   eval "$NPMi" --has_cairo=false --has_X11=false || exit 27
     # ) || exit $?
+
+
+    #
+    # Mesa
+    #
+
+    # TODO Move to initramfs when we have flavors?
+
+    MESA_URL=https://mesa.freedesktop.org/archive/mesa-17.1.3.tar.xz
+    SRC_DIR=`pwd`/deps/mesa
+    OBJ_DIR=$OBJECTS/mesa
+
+    mkdir -p $SRC_DIR                                              &&
+    curl -L $MESA_URL | tar xJf - -C $SRC_DIR --strip-components=1 || exit 28
+
+    (
+      mkdir -p $OBJ_DIR &&
+      cd       $OBJ_DIR || exit 29
+
+      # Configure
+      CC=$TARGET-gcc                    \
+      CXX=$TARGET-g++                   \
+      $SRC_DIR/configure                \
+          --silent                      \
+          --prefix=$OBJ_NODEOS          \
+          --disable-glx                 \
+          --enable-egl                  \
+          --with-gallium-drivers=swrast \
+          --with-platforms=drm          \
+          --with-dri-drivers=swrast     || exit 30
+
+      # Compile
+      $MAKE || exit 31
+
+      # Install
+      $MAKE install || exit 32
+    ) || exit $?
   ) || err $?
 
   echo -e "${GRN}Successfully generated nodeos user folder${CLR}"
@@ -161,7 +198,7 @@ if [[ ! -f $STEP_DIR ]]; then
 
   mkdir -p `dirname $STEP_DIR`
 
-  scripts/pack.js "$OBJECTS" nodeos 1 1 | gzip > $STEP_DIR || err 30
+  scripts/pack.js "$OBJECTS/usersfs" nodeos 1 1 | gzip > $STEP_DIR || err 30
 fi
 
 
