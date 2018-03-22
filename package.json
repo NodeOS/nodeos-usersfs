@@ -70,7 +70,7 @@
     "@nodeos/getty": "^0.0.0",
     "node-wget": "^0.4.2",
     "nodeos-cross-toolchain": "^1.0.0-RC3.1",
-    "nodeos-nodejs": "^8.4.0",
+    "nodeos-nodejs": "^9.9.0",
     "nodeos-reverse-proxy": "^0.1.1",
     "npm": "^4.6.1",
     "bin-nsh": "^0.5.2",
