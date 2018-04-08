@@ -65,7 +65,7 @@
     "dhcpjs": "^0.6.0",
     "ifconfig": "NodeOS/ifconfig",
     "ip": "NodeOS/ip",
-    "loadtest": "^2.3.0",
+    "loadtest": "^3.0.2",
     "logon": "^0.1.4",
     "@nodeos/getty": "^0.0.0",
     "node-wget": "^0.4.2",
