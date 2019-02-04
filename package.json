@@ -81,7 +81,7 @@
     "pstree": "^0.0.1",
     "qemu": "^2.9.0",
     "slap": "^0.1.61",
-    "tar-fs": "^1.15.2"
+    "tar-fs": "^2.0.0"
   },
   "description": "Generate a read-write users filesystem for NodeOS for demo purposses",
   "repository": {
