@@ -77,7 +77,7 @@
     "ntp-client": "^0.5.3",
     "palmtree": "^2.6.0",
     "performance": "^1.1.1",
-    "prebuild": "^6.1.0",
+    "prebuild": "^9.0.1",
     "pstree": "^0.0.1",
     "qemu": "^2.9.0",
     "slap": "^0.1.61",
